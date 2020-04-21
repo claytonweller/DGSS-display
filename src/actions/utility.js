@@ -8,7 +8,7 @@ export const utilityActionHash = {
 async function localServerAction(params, component) {
   console.log('local-server\n', params)
   const sendParams = {
-    source: 'control'
+    source: 'display'
   }
   client.send(JSON.stringify({ action: 'connect-source', params: sendParams }))
   component.setState({ currentConn: params })
@@ -16,5 +16,6 @@ async function localServerAction(params, component) {
 
 async function connectionUpdateAction(params, component) {
   console.log('conn-update\n', params)
-  component.setState({ currentConn: params.currentConnection })
+  const { activePerformances, currentConnection } = params
+  component.setState({ currentConn: currentConnection, activePerformances })
 }

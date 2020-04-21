@@ -6,3 +6,12 @@ button {
   background-color: pink;
   margin: 2px;
 }
+
+input {
+  background-color: pink;
+  margin: 2px;
+}
+
+select {
+  background-color: lightgray;
+}

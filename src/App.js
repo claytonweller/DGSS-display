@@ -3,12 +3,14 @@ import './App.css';
 import { manageMessage } from './actions';
 import { client } from './index'
 import { WebsocketTestButtons } from './components/WebsocketTestButtons';
-import { Performance } from './components/Performance';
+import { Preshow } from './components/preshow';
+import { PerformanceConnector } from './components/PerformanceConnector';
 
 class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      activePerformances: {},
       performance: {},
       currentConn: {
         id: "",
@@ -37,11 +39,32 @@ class App extends React.Component {
     };
   }
 
+  setPerformance(performance) {
+    this.setState({ performance })
+  }
+
   render() {
+    const moduleHash = {
+      preshow: Preshow,
+      default: (
+        <PerformanceConnector
+          connection={this.state.currentConn}
+          activePerformances={this.state.activePerformances}
+          setPerformance={p => this.setPerformance(p)}
+          performance={this.state.performance}
+        />
+      )
+
+    }
+
+    const currentModule = this.state.performance.currentModule
+      ? moduleHash[this.state.performce.currentModule]
+      : moduleHash.default
+
     return (
       <div className="App" >
         <h1>DISPLAY</h1>
-        <Performance performance={this.state.performance} />
+        {currentModule}
         <h3>State display</h3>
         <div style={{ width: '95vw', wordWrap: 'break-word' }}>{JSON.stringify(this.state.currentConn)}</div>
         <WebsocketTestButtons />
