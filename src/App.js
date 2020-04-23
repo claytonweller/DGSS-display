@@ -10,6 +10,7 @@ class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      currentModule: {},
       activePerformances: {},
       performance: {},
       currentConn: {
@@ -45,7 +46,7 @@ class App extends React.Component {
 
   render() {
     const moduleHash = {
-      preshow: Preshow,
+      preshow: <Preshow />,
       default: (
         <PerformanceConnector
           connection={this.state.currentConn}
@@ -54,17 +55,17 @@ class App extends React.Component {
           performance={this.state.performance}
         />
       )
-
     }
 
-    const currentModule = this.state.performance.currentModule
-      ? moduleHash[this.state.performce.currentModule]
+    const currentModuleTitle = this.state.currentModule.title
+    const moduleInterface = currentModuleTitle
+      ? moduleHash[currentModuleTitle]
       : moduleHash.default
 
     return (
       <div className="App" >
         <h1>DISPLAY</h1>
-        {currentModule}
+        {moduleInterface}
         <h3>State display</h3>
         <div style={{ width: '95vw', wordWrap: 'break-word' }}>{JSON.stringify(this.state.currentConn)}</div>
         <WebsocketTestButtons />

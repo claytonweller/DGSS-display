@@ -10,10 +10,8 @@ export class PerformanceConnector extends React.Component {
   }
 
   render() {
-    console.log('selected', this.state.selectedDataIndex)
-    const { activePerformances, connection } = this.props
+    const { activePerformances } = this.props
     let display = this.noPerformances()
-    console.log('PERFORMANCEID', connection.performance_id)
     if (activePerformances && activePerformances.length) {
       display = this.performancesAvailable()
     }
@@ -30,7 +28,6 @@ export class PerformanceConnector extends React.Component {
   }
 
   handleSubmit(event) {
-    console.log(this.state.selectedDataIndex)
     event.preventDefault()
     const { selectedDataIndex } = this.state
     const selectedPerformance = this.props.activePerformances[selectedDataIndex]
