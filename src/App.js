@@ -2,15 +2,17 @@ import React from 'react';
 import './App.css';
 import { manageMessage } from './actions';
 import { client } from './index';
-import { Preshow } from './components/preshow';
-import { PerformanceConnector } from './components/PerformanceConnector';
+import { Module } from './components/modules';
 
 class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       moduleState: {},
-      currentModule: {},
+      currentModule: {
+        module: {},
+        instance: {},
+      },
       activePerformances: {},
       performance: {},
       currentConn: {
@@ -24,7 +26,7 @@ class App extends React.Component {
     };
   }
 
-  componentWillMount() {
+  componentDidMount() {
     client.onopen = (message) => {
       const params = { source: 'display' };
       console.log('WebSocket Client Connected\n', message);
@@ -45,25 +47,16 @@ class App extends React.Component {
   }
 
   render() {
-    const moduleHash = {
-      preshow: <Preshow moduleState={this.state.moduleState} />,
-      default: (
-        <PerformanceConnector
-          connection={this.state.currentConn}
-          activePerformances={this.state.activePerformances}
-          setPerformance={(p) => this.setPerformance(p)}
-          performance={this.state.performance}
-        />
-      ),
-    };
-
-    const currentModuleTitle = this.state.currentModule.title;
-    const moduleInterface = currentModuleTitle ? moduleHash[currentModuleTitle] : moduleHash.default;
-
     return (
       <div className="App">
         <h1>DISPLAY</h1>
-        {moduleInterface}
+        <Module
+          currentModule={this.state.currentModule}
+          moduleState={this.state.moduleState}
+          setPerformance={(p) => this.setPerformance(p)}
+          currentConn={this.state.currentConn}
+          activePerformances={this.state.activePerformances}
+        />
       </div>
     );
   }
