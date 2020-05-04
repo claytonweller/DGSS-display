@@ -1,22 +1,22 @@
-import React from 'react'
+import React from 'react';
 import { client } from '..';
 
 export class PerformanceConnector extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      selectedDataIndex: 0
+      selectedDataIndex: 0,
     };
   }
 
   render() {
-    const { activePerformances } = this.props
-    let display = this.noPerformances()
+    const { activePerformances } = this.props;
+    let display = this.noPerformances();
     if (activePerformances && activePerformances.length) {
-      display = this.performancesAvailable()
+      display = this.performancesAvailable();
     }
     if (Object.keys(this.props.performance).length) {
-      display = this.joinedPerfomance()
+      display = this.joinedPerfomance();
     }
 
     return (
@@ -24,36 +24,42 @@ export class PerformanceConnector extends React.Component {
         <h3>PerformanceConnector</h3>
         {display}
       </div>
-    )
+    );
   }
 
   handleSubmit(event) {
-    event.preventDefault()
-    const { selectedDataIndex } = this.state
-    const selectedPerformance = this.props.activePerformances[selectedDataIndex]
-    const { id: performance_id } = selectedPerformance
-    this.props.setPerformance(selectedPerformance)
-    const payload = { action: 'join-performance', params: { performance_id, source: 'display' } }
-    client.send(JSON.stringify(payload))
+    event.preventDefault();
+    const { selectedDataIndex } = this.state;
+    const selectedPerformance = this.props.activePerformances[selectedDataIndex];
+    const { id: performance_id } = selectedPerformance;
+    this.props.setPerformance(selectedPerformance);
+    const payload = { action: 'join-performance', params: { performance_id, source: 'display' } };
+    client.send(JSON.stringify(payload));
   }
 
   noPerformances() {
-    return <div>No shows to connect to</div>
+    return <div>No shows to connect to</div>;
   }
 
   performancesAvailable() {
-    const performanceOptions = this.props.activePerformances.map((p, i) => {
-      return (<option value={i} key={p.id}>{p.created_at}</option>)
-    })
+    const performanceOptions = this.props.activePerformances
+      .sort((a, b) => b.id - a.id)
+      .map((p, i) => {
+        return (
+          <option value={i} key={p.id}>
+            {p.id}
+          </option>
+        );
+      });
 
-    const joinButton = (<input type="submit" value="Join" />)
+    const joinButton = <input type="submit" value="Join" />;
 
     return (
-      <div >
-        <form onSubmit={event => this.handleSubmit(event)}>
+      <div>
+        <form onSubmit={(event) => this.handleSubmit(event)}>
           <label htmlFor="activePerformances">Choose a performance:</label>
           <select
-            onChange={event => this.setState({ selectedDataIndex: event.target.value })}
+            onChange={(event) => this.setState({ selectedDataIndex: event.target.value })}
             value={this.state.selectedDataIndex}
             id="activePerformances"
           >
@@ -65,7 +71,7 @@ export class PerformanceConnector extends React.Component {
         <p />
         <div style={{ width: '95vw', wordWrap: 'break-word' }}>{JSON.stringify(this.props.activePerformances)}</div>
       </div>
-    )
+    );
   }
 
   joinedPerfomance() {
@@ -74,6 +80,6 @@ export class PerformanceConnector extends React.Component {
         <h4>Joined Peformance!</h4>
         <div>{JSON.stringify(this.props.performance)}</div>
       </div>
-    )
+    );
   }
 }
