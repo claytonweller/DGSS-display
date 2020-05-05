@@ -31,9 +31,12 @@ export class PerformanceConnector extends React.Component {
     event.preventDefault();
     const { selectedDataIndex } = this.state;
     const selectedPerformance = this.props.activePerformances[selectedDataIndex];
-    const { id: performance_id } = selectedPerformance;
+    const { id: performance_id, current_module_title } = selectedPerformance;
     this.props.setPerformance(selectedPerformance);
-    const payload = { action: 'join-performance', params: { performance_id, source: 'display' } };
+    const payload = {
+      action: 'join-performance',
+      params: { current_module_title, performance_id, source: 'display' },
+    };
     client.send(JSON.stringify(payload));
   }
 
