@@ -5,7 +5,7 @@ import { Bootcamp } from './Bootcamp/';
 
 export function Module({ currentModule, moduleState, setPerformance, currentConn, activePerformances }) {
   const moduleHash = {
-    bootcamp: <Bootcamp />,
+    bootcamp: <Bootcamp moduleState={moduleState} />,
     preshow: <Preshow moduleState={moduleState} />,
     default: (
       <PerformanceConnector
