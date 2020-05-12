@@ -1,10 +1,12 @@
 import React from 'react';
+import { Boatrace } from './Boatrace/';
 import { Preshow } from './preshow/';
 import { PerformanceConnector } from '../PerformanceConnector';
 import { Bootcamp } from './Bootcamp/';
 
 export function Module({ currentModule, moduleState, setPerformance, currentConn, activePerformances }) {
   const moduleHash = {
+    boatrace: <Boatrace moduleState={moduleState} />,
     bootcamp: <Bootcamp moduleState={moduleState} />,
     preshow: <Preshow moduleState={moduleState} />,
     default: (
