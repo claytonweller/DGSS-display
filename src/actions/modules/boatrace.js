@@ -1,8 +1,22 @@
-
 export const boatraceActionHash = {
-  "boatrace-template": templateAction,
+  'boatrace-show-title': showTitleAction,
+  'boatrace-ready-to-board': readyToBoardAction,
 };
 
-function templateAction(params, component) {
-  console.log("Template", params);
+function showTitleAction(params, component) {
+  component.setState({
+    moduleState: {
+      step: 'title',
+    },
+  });
+}
+
+function readyToBoardAction(params, component) {
+  console.warn(params);
+  component.setState({
+    moduleState: {
+      step: 'boarding',
+      boats: params.boats,
+    },
+  });
 }
