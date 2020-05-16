@@ -14,7 +14,7 @@ class App extends React.Component {
         module: {},
         instance: {},
       },
-      activePerformances: {},
+      activePerformances: [],
       performance: {},
       currentConn: {
         id: '',
