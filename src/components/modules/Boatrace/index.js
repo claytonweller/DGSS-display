@@ -17,9 +17,10 @@ export function Boatrace({ moduleState }) {
 
   const boarding = () => {
     const boats = moduleState.boats.map((boat, i) => {
+      const arrow = boat.id === moduleState.lastBoarded.id ? '<---' : null;
       return (
         <div>
-          #{i + 1}\_____/- crew: {boat.attendee_aws_ids.length}
+          #{i + 1}\_____/- crew: {boat.attendee_aws_ids.length} {arrow}
         </div>
       );
     });
