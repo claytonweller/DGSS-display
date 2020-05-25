@@ -1,6 +1,7 @@
 import React from 'react';
+import BoatraceInstructions from './Instructions';
 
-export function Boatrace({ moduleState }) {
+export function Boatrace({ moduleState, currentModule }) {
   let display = (
     <div>
       <i>It's empty</i>
@@ -15,20 +16,35 @@ export function Boatrace({ moduleState }) {
     );
   };
 
-  const boarding = () => {
+  const boatDispaly = ({ lastBoardedId = 0, isBoarding, isRacing }) => {
     const boats = moduleState.boats.map((boat, i) => {
-      const arrow = boat.id === moduleState.lastBoarded.id ? '<---' : null;
+      const arrow = boat.id === lastBoardedId ? '<---' : null;
+      const name = isNaN(parseInt(boat.name)) && boat.state.nameIsVisible ? boat.name : null;
+      const crew = isBoarding ? `- crew: ${boat.attendee_aws_ids.length}` : null;
+      const progress = isRacing ? `- Progress ${boat.progress}` : null;
       return (
         <div>
-          #{i + 1}\_____/- crew: {boat.attendee_aws_ids.length} {arrow}
+          #{i + 1}\_____/ {crew} {arrow} {name} {progress}
         </div>
       );
     });
     return <div>{boats}</div>;
   };
 
+  const boarding = () => {
+    const lastBoardedId = moduleState.lastBoarded ? moduleState.lastBoarded.id : null;
+    return boatDispaly({ lastBoardedId, isBoarding: true });
+  };
+
+  const racing = () => {
+    return boatDispaly({ isRacing: true });
+  };
+
   if (moduleState.step === 'title') display = title();
   if (moduleState.step === 'boarding') display = boarding();
+  if (moduleState.step === 'instructions')
+    display = <BoatraceInstructions currentModule={currentModule} instructionStep={moduleState.instructionStep} />;
+  if (moduleState.step === 'racing') display = racing();
 
   return <div>{display}</div>;
 }
