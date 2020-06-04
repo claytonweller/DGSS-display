@@ -23,7 +23,7 @@ export function Boatrace({ moduleState, currentModule }) {
       const crew = isBoarding ? `- crew: ${boat.attendee_aws_ids.length}` : null;
       const progress = isRacing ? `- Progress ${boat.progress}` : null;
       return (
-        <div>
+        <div key={boat.name + i}>
           #{i + 1}\_____/ {crew} {arrow} {name} {progress}
         </div>
       );
@@ -40,11 +40,22 @@ export function Boatrace({ moduleState, currentModule }) {
     return boatDispaly({ isRacing: true });
   };
 
+  const raceEnded = () => {
+    const podium = JSON.stringify(moduleState.podium);
+    return (
+      <div>
+        {boatDispaly({})}
+        {podium}
+      </div>
+    );
+  };
+
   if (moduleState.step === 'title') display = title();
   if (moduleState.step === 'boarding') display = boarding();
   if (moduleState.step === 'instructions')
     display = <BoatraceInstructions currentModule={currentModule} instructionStep={moduleState.instructionStep} />;
   if (moduleState.step === 'racing') display = racing();
+  if (moduleState.step === 'race-ended') display = raceEnded();
 
   return <div>{display}</div>;
 }

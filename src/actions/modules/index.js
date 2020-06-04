@@ -20,3 +20,12 @@ function startNextModuleAction(params, component) {
     performance,
   });
 }
+
+export const updateModuleState = (component, updates) => {
+  component.setState({
+    moduleState: {
+      ...component.state.moduleState,
+      ...updates,
+    },
+  });
+};
