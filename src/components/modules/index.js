@@ -1,4 +1,5 @@
 import React from 'react';
+import { Trolly } from './Trolly/';
 import { Boatrace } from './Boatrace/';
 import { Preshow } from './preshow/';
 import { PerformanceConnector } from '../PerformanceConnector';
@@ -6,6 +7,7 @@ import { Bootcamp } from './Bootcamp/';
 
 export function Module({ currentModule, moduleState, setPerformance, currentConn, activePerformances }) {
   const moduleHash = {
+    trolly: <Trolly moduleState={moduleState} />,
     boatrace: <Boatrace currentModule={currentModule} moduleState={moduleState} />,
     bootcamp: <Bootcamp moduleState={moduleState} />,
     preshow: <Preshow moduleState={moduleState} />,
