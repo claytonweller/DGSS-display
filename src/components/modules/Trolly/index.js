@@ -1,11 +1,13 @@
-
 import React from 'react';
 
 export function Trolly({ moduleState }) {
+  let display = null;
+  if (moduleState.step === 'title') display = <h3>The Trolly Problem</h3>;
+
   return (
     <div>
-      <h3>Trolly</h3>
-      <p>This is a module template</p>
+      <div></div>
+      {display}
     </div>
   );
 }
