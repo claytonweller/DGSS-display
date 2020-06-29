@@ -27,7 +27,7 @@ class Timer extends React.Component {
     this.setState({ timeRemaining: newTime });
   }
 
-  component() {
+  componentWillUnmount() {
     this.setState({ timerIsAlive: false });
   }
 
@@ -40,10 +40,9 @@ class Timer extends React.Component {
             backgroundColor: 'pink',
             width: `${percentRemaining}%`,
             transition: `width ${this.getGranularity() / 1000}s`,
+            height: '10px',
           }}
-        >
-          {percentRemaining}
-        </div>{' '}
+        />
       </div>
     );
   }

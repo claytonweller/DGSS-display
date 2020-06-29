@@ -11,27 +11,24 @@ export function Trolly({ moduleState }) {
     // Shows countdown if timer is present
     // does not show countdown if timer is huge
 
-    const timerDisplay = timer ? <Timer initialTime={timer} /> : null;
+    const timerDisplay =
+      timer && timer < 10000 ? <Timer key={q.default.text + q.alternative.text} initialTime={timer} /> : null;
 
-    const totalParticipants = q.default.count + q.alternative.count;
+    const displayChoice = (choice) => {
+      const totalParticipants = q.default.count + q.alternative.count;
 
-    const defaultChoice = (
-      <div>
-        <h3>default</h3>
-        <div>{(q.default.count / totalParticipants) * 100}%</div>
-      </div>
-    );
+      return (
+        <div>
+          <h3>{choice.text}</h3>
+          <div>{(choice.count / totalParticipants) * 100}%</div>
+        </div>
+      );
+    };
 
-    const alternativeChoice = (
-      <div>
-        <h3>alt</h3>
-        <div>{(q.alternative.count / totalParticipants) * 100}%</div>
-      </div>
-    );
     const choices = (
       <div style={{ display: 'flex', justifyContent: 'space-around' }}>
-        {defaultChoice}
-        {alternativeChoice}
+        {displayChoice(q.default)}
+        {displayChoice(q.alternative)}
       </div>
     );
 
